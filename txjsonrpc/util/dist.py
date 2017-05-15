@@ -68,11 +68,13 @@ def _validateReST(text):
     doc.reporter.report_level = 1
     stream = doc.reporter.stream = StringIO()
     # docutils buglets (?)
+    Parser = docutils.parsers.rst.Parser
+    doc.settings = docutils.frontend.OptionParser(components=(Parser,)).get_default_values()
     doc.settings.tab_width = 2
     doc.settings.pep_references = doc.settings.rfc_references = False
     doc.settings.trim_footnote_reference_space = None
     # and we're off...
-    parser = docutils.parsers.rst.Parser()
+    parser = Parser()
     parser.parse(text, doc)
     return stream.getvalue()
 
